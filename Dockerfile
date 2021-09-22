@@ -46,12 +46,7 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
 
 FROM composer:2.1.8
 
-RUN composer install \
-    --ignore-platform-reqs \
-    --no-interaction \
-    --no-plugins \
-    --no-scripts \
-    --prefer-dist
+RUN composer install
 
 # Configure nginx
 COPY config/nginx.conf /etc/nginx/nginx.conf
