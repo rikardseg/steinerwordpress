@@ -1,0 +1,55 @@
+version: "3.3"
+
+services:
+  web:
+    depends_on:
+      - db
+    volumes:
+      - ./src:/var/www/html
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      WP_DEBUG: "true"
+      WP_DEFAULT_THEME: wordplate
+      WP_ENVIRONMENT_TYPE: local
+
+      DB_HOST: db:3306
+      DB_NAME: wordpress
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_TABLE_PREFIX: wp_
+
+      # https://wordplate.github.io/salt/
+      AUTH_KEY: aae86062be42f6e2ee43a878547bb236c6a92f3ed57f673d43fa7b733b499e08
+      SECURE_AUTH_KEY: 02eed6ed7e041306a3e5029d7acd0a1512fa938f8c2145b691c43397088f1dcb
+      LOGGED_IN_KEY: b3e6cc1e683f4d6e8f704592587dcf31c75f25ba2452497655aa1ab39d3b5c22
+      NONCE_KEY: 76d3e240c2fe4880fb8842c02078386b1e2f16a0122e469e802966966e2206ca
+      AUTH_SALT: ff50f922ff07f7a7c0d29cfa7bd23e276cd02846871bd6dc9be73ae4d41d2a37
+      SECURE_AUTH_SALT: e52865f33031fba5dbb04f3737576cb0b818796d7737dbc07ae37787356da272
+      LOGGED_IN_SALT: b2ae984554bac78777e8f0f5adc4ad6faa5ee0e2dd9dff4cdc65000d21c60105
+      NONCE_SALT: 20fccc5dc15ac49d970bde21376d4b30fc62f8ae335a0df609cbba0b1b5ae847
+
+  db:
+    image: mysql:8
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: mysql
+      MYSQL_PASSWORD: mysql
+    cap_add:
+      - SYS_NICE # CAP_SYS_NICE
+  pma:
+    depends_on:
+      - db
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: mysql
+      PMA_PASSWORD: mysql
+      MYSQL_ROOT_PASSWORD: root
