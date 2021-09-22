@@ -68,7 +68,7 @@ FROM composer:2.1.8
 
 # Add application
 
-COPY src/composer.* /var/www/html
+COPY src/composer.* /var/www/html/
 
 RUN cd /var/www/html && composer install
 
