@@ -26,4 +26,4 @@ jobs:
       - name: Push image to DO Container Registry
         run: docker push registry.digitalocean.com/steiner/steiner:${{ github.event.inputs.version }}
       - name: Create deployment
-        run: doctl apps create-deployment steiner --wait
+        run: doctl apps create-deployment 04595660-06a5-403a-9c92-994516bf6319 --wait

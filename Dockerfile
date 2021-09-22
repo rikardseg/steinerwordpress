@@ -64,16 +64,16 @@ RUN chown -R nobody.nobody /var/www/html && \
 # Switch to use a non-root user from here on
 USER nobody
 
+FROM composer:2.1.8
+
 # Add application
 WORKDIR /var/www/html
 
-FROM composer:2.1.8
+ADD src/ .
 
-ADD src/ /var/www/html
+RUN composer install
 
-RUN cd /var/www/html && composer install
-
-COPY --chown=nobody src/ /var/www/html/
+COPY --chown=nobody src/ .
 
 # Expose the port nginx is reachable on
 EXPOSE 80
