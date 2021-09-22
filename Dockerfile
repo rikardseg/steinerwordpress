@@ -67,13 +67,12 @@ USER nobody
 FROM composer:2.1.8
 
 # Add application
-WORKDIR /var/www/html
 
-ADD src/ .
+COPY src/composer.* /var/www/html
 
-RUN composer install
+RUN cd /var/www/html && composer install
 
-COPY --chown=nobody src/ .
+COPY --chown=nobody src/ /var/www/html
 
 # Expose the port nginx is reachable on
 EXPOSE 80
