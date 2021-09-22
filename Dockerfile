@@ -70,9 +70,9 @@ COPY --chown=nobody src/ /var/www/html/
 
 FROM composer:2.1.8
 
-RUN cd ../src/ && composer install
+ADD src/ ./
 
-COPY --chown=nobody src/vendor /var/www/html/vendor
+RUN composer install
 
 # Expose the port nginx is reachable on
 EXPOSE 80
