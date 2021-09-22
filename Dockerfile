@@ -2,6 +2,8 @@ FROM alpine:3.13
 
 ARG PHP_VERSION="8.0.8-r0"
 
+ADD src/ src/
+
 # Install packages and remove default server definition
 RUN apk --no-cache add php8=${PHP_VERSION} \
     php8-ctype \
