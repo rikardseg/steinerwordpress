@@ -70,7 +70,7 @@ COPY --chown=nobody src/ /var/www/html/
 
 FROM composer:2.1.8
 
-RUN cd src/ && composer install
+RUN cd ../src/ && composer install
 
 COPY --chown=nobody src/vendor /var/www/html/vendor
 
