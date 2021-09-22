@@ -2,8 +2,6 @@ FROM alpine:3.13
 
 ARG PHP_VERSION="8.0.8-r0"
 
-ADD src/ src/
-
 # Install packages and remove default server definition
 RUN apk --no-cache add php8=${PHP_VERSION} \
     php8-ctype \
@@ -44,12 +42,6 @@ RUN ln -s /usr/bin/php8 /usr/bin/php
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 
-FROM composer:2.1.8
-
-RUN ls -la
-
-RUN composer install
-
 # Configure nginx
 COPY config/nginx.conf /etc/nginx/nginx.conf
 
@@ -75,6 +67,10 @@ USER nobody
 # Add application
 WORKDIR /var/www/html
 COPY --chown=nobody src/ /var/www/html/
+
+FROM composer:2.1.8
+
+RUN composer install
 
 # Expose the port nginx is reachable on
 EXPOSE 80
