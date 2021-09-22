@@ -46,6 +46,8 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
 
 FROM composer:2.1.8
 
+RUN ls -la
+
 RUN composer install
 
 # Configure nginx
